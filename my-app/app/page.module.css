@@ -1,0 +1,144 @@
+.container {
+  text-align: center;
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.h1 {
+  font-size: 2.2em;
+  color: #007bff;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.game {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+.img {
+  max-width: 50%;
+  height: auto;
+  border-radius: 8px;
+  margin-right: 20px;
+}
+
+.game-content {
+  max-width: 50%;
+  text-align: left;
+}
+
+.input {
+  font-size: 1.1em;
+  padding: 10px;
+  border: 2px solid #007bff;
+  border-radius: 4px;
+  margin: 10px 0;
+  width: 100%;
+  max-width: 300px;
+  transition: border-color 0.3s ease;
+}
+
+.input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.button {
+  font-size: 1.1em;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  background-color: #007bff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 10px;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+.button:disabled {
+  background-color: #d6d6d6;
+  cursor: not-allowed;
+}
+
+.info {
+  font-size: 1.1em;
+  margin-top: 20px;
+  color: #333;
+}
+
+.info p {
+  margin: 5px 0;
+}
+
+.tablaPuntaje {
+  margin-top: 30px;
+  padding: 10px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.tablaPuntaje h2 {
+  font-size: 1.8em;
+  color: #17a2b8;
+  margin-bottom: 10px;
+}
+
+.tablaPuntaje ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tablaPuntaje li {
+  font-size: 1.1em;
+  padding: 8px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.tablaPuntaje li:last-child {
+  border-bottom: none;
+}
+
+@media (max-width: 600px) {
+  .input, .button {
+    width: 90%;
+  }
+
+  .button {
+    font-size: 1em;
+    padding: 8px 16px;
+  }
+
+  .info p {
+    font-size: 1em;
+  }
+
+  .game {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .img {
+    max-width: 80%;
+    margin: 0;
+  }
+
+  .game-content {
+    max-width: 80%;
+  }
+}
+.texto{
+  color: black;
+}
