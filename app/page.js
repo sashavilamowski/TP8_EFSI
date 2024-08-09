@@ -12,15 +12,24 @@ export default function Juego() {
   const [puntaje, setPuntaje] = useState(0);
   const [tiempo, setTiempo] = useState(15);
   const [ayuda, setAyuda] = useState(false);
-  const [tablaPuntaje, setTablaPuntaje] = useState(JSON.parse(localStorage.getItem('tablaPuntaje')) || []);
+  const [tablaPuntaje, setTablaPuntaje] = useState([]);
   const [juegoEmpezado, setJuegoEmpezado] = useState(false);
   const [letras, setLetras] = useState([]);
 
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const tablaGuardada = JSON.parse(localStorage.getItem('tablaPuntaje'));
+      console.log(tablaGuardada)
+      if (tablaGuardada) {
+        setTablaPuntaje(tablaGuardada);
+      }
+    }
+
     axios.get("https://countriesnow.space/api/v0.1/countries/flag/images")
       .then(response => {
         setPaises(response.data.data);
       });
+
   }, []);
 
   useEffect(() => {
@@ -40,7 +49,9 @@ export default function Juego() {
   }, [paisAhora, tiempo]);
 
   useEffect(() => {
+    if (typeof window !== 'undefined') {
       localStorage.setItem('tablaPuntaje', JSON.stringify(tablaPuntaje));
+    }
   }, [tablaPuntaje]);
 
   const ponerOtraBandera = (paises) => {
@@ -81,8 +92,8 @@ export default function Juego() {
     if (tiempo > 2 && paisAhora) {
       const nombrePais = paisAhora.name.toLowerCase();
       let nuevasLetras = [...letras];
-      let random;
-      if (nuevasLetras.includes(random)){
+      let random = Math.floor(Math.random() * nombrePais.length);
+      while (nuevasLetras.includes(random)) {
         random = Math.floor(Math.random() * nombrePais.length);
       }
 
@@ -112,51 +123,51 @@ export default function Juego() {
 
   return (
     <div className={styles.container}>
-  <h1 className={styles.h1}>Banderas</h1>
-  {!juegoEmpezado ? (
-    <div>
-      <input className={styles.input}
-        type="text"
-        placeholder="Ingrese su nombre"
-        value={nombre}
-        onChange={(e) => setNombre(e.target.value)}
-      />
-      <button className={styles.button} onClick={empezarJuego} disabled={!nombre}>Empezar</button>
-    </div>
-  ) 
-  : 
-  (
-    <div className={styles.game}>
-      {paisAhora && (
-        <>
-          <img className={styles.img} src={paisAhora.flag} />
-          <div className={styles['game-content']}>
-            <input className={styles.input}
-              type="text"
-              value={arriesgo}
-              onChange={(e) => setArriesgo(e.target.value)}
-              placeholder="Adivina el país"
-            />
-            <button className={styles.button} onClick={verSiEsCorrecto}>Arriesgar</button>
-            <p className={styles.texto}>Ayuda: {getAyuda()}</p>
-            <div className={styles.info}>
-              <p>Puntaje: {puntaje}</p>
-              <p>Tiempo: {tiempo}s</p>
-              <button className={styles.button} onClick={setearAyuda}>Ayuda</button>
-            </div>
-          </div>
-        </>
+      <h1 className={styles.h1}>Banderas</h1>
+      {!juegoEmpezado ? (
+        <div>
+          <input className={styles.input}
+            type="text"
+            placeholder="Ingrese su nombre"
+            value={nombre}
+            onChange={(e) => setNombre(e.target.value)}
+          />
+          <button className={styles.button} onClick={empezarJuego} disabled={!nombre}>Empezar</button>
+        </div>
+      ) 
+      : 
+      (
+        <div className={styles.game}>
+          {paisAhora && (
+            <>
+              <img className={styles.img} src={paisAhora.flag} />
+              <div className={styles['game-content']}>
+                <input className={styles.input}
+                  type="text"
+                  value={arriesgo}
+                  onChange={(e) => setArriesgo(e.target.value)}
+                  placeholder="Adivina el país"
+                />
+                <button className={styles.button} onClick={verSiEsCorrecto}>Arriesgar</button>
+                <p className={styles.texto}>Ayuda: {getAyuda()}</p>
+                <div className={styles.info}>
+                  <p>Puntaje: {puntaje}</p>
+                  <p>Tiempo: {tiempo}s</p>
+                  <button className={styles.button} onClick={setearAyuda}>Ayuda</button>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
       )}
+      <div className={styles.tablaPuntaje}>
+        <h2>Tabla de puntajes</h2>
+        <ul>
+          {tablaPuntaje.map((p, index) => (
+            <li className={styles.texto} key={index}>{p.nombre}: {p.puntaje} puntos</li>
+          ))}
+        </ul>
+      </div>
     </div>
-  )}
-  <div className={styles.tablaPuntaje}>
-    <h2>Tabla de puntajes</h2>
-    <ul>
-      {tablaPuntaje.map((p, index) => (
-        <li className={styles.texto} key={index}>{p.nombre}: {p.puntaje} puntos</li>
-      ))}
-    </ul>
-  </div>
-</div>
   );
 }
